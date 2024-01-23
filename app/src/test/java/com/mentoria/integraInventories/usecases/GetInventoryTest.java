@@ -29,7 +29,9 @@ class GetInventoryTest {
     Optional<Inventory> resultPrice = getInventory
         .execute(mockInventory().getSku(), mockInventory().getSellerId());
 
-    Assertions.assertEquals(resultPrice.get(), mockInventory());
+    Assertions.assertEquals(resultPrice.get().getSku(), mockInventory().getSku());
+    Assertions.assertEquals(resultPrice.get().getSellerId(), mockInventory().getSellerId());
+    Assertions.assertEquals(resultPrice.get().getInventory(), mockInventory().getInventory());
 
   }
 

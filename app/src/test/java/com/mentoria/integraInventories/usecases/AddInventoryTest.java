@@ -3,6 +3,7 @@ package com.mentoria.integraInventories.usecases;
 import com.mentoria.integraInventories.domains.Inventory;
 import com.mentoria.integraInventories.exceptions.AlreadyRegisteredException;
 import com.mentoria.integraInventories.gateways.outputs.InventoryDataGateway;
+import com.mentoria.integraInventories.gateways.outputs.SellersDataGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,21 +12,24 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
-import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 class AddInventoryTest {
-
   @InjectMocks
   private AddInventory addInventory;
 
   @Mock
   private InventoryDataGateway inventoryDataGateway;
 
+  @Mock
+  private SellersDataGateway sellersDataGateway;
+
   @Test
   public void shouldSaveAPrice() {
 
     Inventory inventoryTest = mockInventory();
+
+    Mockito.when(sellersDataGateway.exists(inventoryTest.getSellerId())).thenReturn(true);
 
     Mockito.when(inventoryDataGateway
             .findBySkuAndSellerId(inventoryTest.getSku(), inventoryTest.getSellerId()))
@@ -39,8 +43,12 @@ class AddInventoryTest {
 
   @Test
   public void shouldThrowAnExceptionBySellerId() {
+    Inventory inventoryTest = mockInventory();
 
-    Mockito.when(inventoryDataGateway.findBySkuAndSellerId(any(), any()))
+    Mockito.when(sellersDataGateway.exists(inventoryTest.getSellerId())).thenReturn(true);
+
+    Mockito.when(inventoryDataGateway.findBySkuAndSellerId(inventoryTest.getSku(),
+            inventoryTest.getSellerId()))
         .thenThrow(new AlreadyRegisteredException("O estoque já foi cadastrado!"));
 
     Assertions.assertThrows(AlreadyRegisteredException.class,
@@ -50,8 +58,12 @@ class AddInventoryTest {
 
   @Test
   public void shouldThrowAnExceptionBySku() {
+    Inventory inventoryTest = mockInventory();
 
-    Mockito.when(inventoryDataGateway.findBySkuAndSellerId(any(), any()))
+    Mockito.when(sellersDataGateway.exists(inventoryTest.getSellerId())).thenReturn(true);
+
+    Mockito.when(inventoryDataGateway.findBySkuAndSellerId(inventoryTest.getSku(),
+            inventoryTest.getSellerId()))
         .thenThrow(new AlreadyRegisteredException("O estoque já foi cadastrado!"));
 
     Assertions.assertThrows(AlreadyRegisteredException.class,

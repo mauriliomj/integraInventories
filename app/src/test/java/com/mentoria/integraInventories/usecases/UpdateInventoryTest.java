@@ -33,18 +33,18 @@ class UpdateInventoryTest {
 
     updateInventory.execute(mockInventory());
 
-    Mockito.verify(inventoryDataGateway).save(any());
+    Mockito.verify(inventoryDataGateway).save(mockInventory());
 
   }
 
   @Test
-  public void shouldThrowExceptionForNotFindingId() {
+  public void shouldThrowNotFoundException() {
 
-    Mockito.when(inventoryDataGateway.findBySkuAndSellerId(any(), any()))
-        .thenThrow(new NotFoundException("Id não encontrado."));
+    Mockito.when(inventoryDataGateway.findBySkuAndSellerId(mockInventory().getSku(),mockInventory()
+        .getSellerId())).thenThrow(new NotFoundException("sellerId ou Sku não encontrado"));
 
     Assertions.assertThrows(NotFoundException.class, () -> updateInventory
-        .execute(mockInventoryUpdated()));
+        .execute(mockInventory()));
 
   }
 
