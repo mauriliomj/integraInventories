@@ -2,8 +2,9 @@ package com.mentoria.integraInventories.usecases;
 
 import com.mentoria.integraInventories.domains.Inventory;
 import com.mentoria.integraInventories.exceptions.AlreadyRegisteredException;
+import com.mentoria.integraInventories.exceptions.NotFoundException;
+import com.mentoria.integraInventories.gateways.outputs.CheckSellerId;
 import com.mentoria.integraInventories.gateways.outputs.InventoryDataGateway;
-import com.mentoria.integraInventories.gateways.outputs.SellersDataGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,19 +18,16 @@ import java.util.Optional;
 class AddInventoryTest {
   @InjectMocks
   private AddInventory addInventory;
-
   @Mock
   private InventoryDataGateway inventoryDataGateway;
-
   @Mock
-  private SellersDataGateway sellersDataGateway;
+  private CheckSellerId checkSellerId;
 
   @Test
   public void shouldSaveAPrice() {
     Inventory inventoryTest = mockInventory();
 
-    Mockito.when(sellersDataGateway.exists(inventoryTest.getSellerId())).thenReturn(true);
-
+    Mockito.when(checkSellerId.validate(mockInventory().getSellerId())).thenReturn(true);
     Mockito.when(inventoryDataGateway
             .findBySkuAndSellerId(inventoryTest.getSku(), inventoryTest.getSellerId()))
         .thenReturn(Optional.empty());
@@ -41,15 +39,9 @@ class AddInventoryTest {
 
   @Test
   public void shouldThrowAnExceptionBySellerId() {
-    Inventory inventoryTest = mockInventory();
+    Mockito.when(checkSellerId.validate(mockInventory().getSellerId())).thenReturn(false);
 
-    Mockito.when(sellersDataGateway.exists(inventoryTest.getSellerId())).thenReturn(true);
-
-    Mockito.when(inventoryDataGateway.findBySkuAndSellerId(inventoryTest.getSku(),
-            inventoryTest.getSellerId()))
-        .thenThrow(new AlreadyRegisteredException("O estoque já foi cadastrado!"));
-
-    Assertions.assertThrows(AlreadyRegisteredException.class,
+    Assertions.assertThrows(NotFoundException.class,
         () -> addInventory.execute(mockInventory()));
   }
 
@@ -57,7 +49,7 @@ class AddInventoryTest {
   public void shouldThrowAnExceptionBySku() {
     Inventory inventoryTest = mockInventory();
 
-    Mockito.when(sellersDataGateway.exists(inventoryTest.getSellerId())).thenReturn(true);
+    Mockito.when(checkSellerId.validate(mockInventory().getSellerId())).thenReturn(true);
 
     Mockito.when(inventoryDataGateway.findBySkuAndSellerId(inventoryTest.getSku(),
             inventoryTest.getSellerId()))

@@ -3,8 +3,8 @@ package com.mentoria.integraInventories.usecases;
 import com.mentoria.integraInventories.domains.Inventory;
 import com.mentoria.integraInventories.exceptions.AlreadyRegisteredException;
 import com.mentoria.integraInventories.exceptions.NotFoundException;
+import com.mentoria.integraInventories.gateways.outputs.CheckSellerId;
 import com.mentoria.integraInventories.gateways.outputs.InventoryDataGateway;
-import com.mentoria.integraInventories.gateways.outputs.SellersDataGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

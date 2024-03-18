@@ -12,20 +12,15 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-
 @ExtendWith(MockitoExtension.class)
 class UpdateInventoryTest {
-
   @InjectMocks
   private UpdateInventory updateInventory;
-
   @Mock
   private InventoryDataGateway inventoryDataGateway;
 
   @Test
   public void shouldChangeAInventoryBySkuAndSellerId() {
-
     Mockito.when(
             inventoryDataGateway.findBySkuAndSellerId(mockInventory().getSku(), mockInventory()
                 .getSellerId()))
@@ -34,35 +29,28 @@ class UpdateInventoryTest {
     updateInventory.execute(mockInventory());
 
     Mockito.verify(inventoryDataGateway).save(mockInventory());
-
   }
 
   @Test
   public void shouldThrowNotFoundException() {
-
     Mockito.when(inventoryDataGateway.findBySkuAndSellerId(mockInventory().getSku(),mockInventory()
         .getSellerId())).thenThrow(new NotFoundException("sellerId ou Sku não encontrado"));
 
     Assertions.assertThrows(NotFoundException.class, () -> updateInventory
         .execute(mockInventory()));
-
   }
 
   public Inventory mockInventory() {
-
     Inventory mockPrice = new Inventory();
     mockPrice.setSku("SkuTest");
     mockPrice.setSellerId("IdTest");
     mockPrice.setInventory(20);
     return mockPrice;
-
   }
 
   public Inventory mockInventoryUpdated() {
-
     Inventory mockInvnetoryUpdated = new Inventory();
     mockInvnetoryUpdated.setInventory(10);
     return mockInvnetoryUpdated;
-
   }
 }

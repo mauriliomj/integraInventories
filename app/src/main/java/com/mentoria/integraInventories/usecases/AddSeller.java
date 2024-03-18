@@ -2,21 +2,23 @@ package com.mentoria.integraInventories.usecases;
 
 import com.mentoria.integraInventories.domains.Seller;
 import com.mentoria.integraInventories.exceptions.AlreadyRegisteredException;
-import com.mentoria.integraInventories.gateways.outputs.mongodb.SellersDataGatewayMongoImpl;
+import com.mentoria.integraInventories.gateways.outputs.CheckSellerId;
+import com.mentoria.integraInventories.gateways.outputs.mongodb.documents.SellerDocument;
+import com.mentoria.integraInventories.gateways.outputs.mongodb.repositories.SellersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AddSeller {
   @Autowired
-  @Qualifier("sellersDataGatewayMongoImpl")
-  private SellersDataGatewayMongoImpl sellersDataGatewayMongoImpl;
+  private CheckSellerId checkSellerId;
+  @Autowired
+  private SellersRepository sellersRepository;
 
   public void execute(Seller seller){
-    if(sellersDataGatewayMongoImpl.exists(seller.getSellerId())){
+    if(checkSellerId.validate(seller.getSellerId())){
       throw new AlreadyRegisteredException("Seller já registrado!");
     }
-    sellersDataGatewayMongoImpl.save(seller);
+    sellersRepository.save(new SellerDocument(seller));
   }
 }
