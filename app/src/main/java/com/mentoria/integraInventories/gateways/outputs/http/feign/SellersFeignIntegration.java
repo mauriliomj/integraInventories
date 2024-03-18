@@ -1,7 +1,6 @@
 package com.mentoria.integraInventories.gateways.outputs.http.feign;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 import com.mentoria.integraInventories.gateways.outputs.http.resources.SellerResource;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -1,7 +1,6 @@
 package com.mentoria.integraInventories.configurations;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
 import feign.Request;
 import feign.Request.Options;
 import org.springframework.beans.factory.annotation.Value;

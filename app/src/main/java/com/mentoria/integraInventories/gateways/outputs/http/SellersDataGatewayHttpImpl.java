@@ -1,5 +1,6 @@
 package com.mentoria.integraInventories.gateways.outputs.http;
 
+import com.mentoria.integraInventories.domains.Seller;
 import com.mentoria.integraInventories.gateways.outputs.SellersDataGateway;
 import com.mentoria.integraInventories.gateways.outputs.http.feign.SellersFeignIntegration;
 import com.mentoria.integraInventories.gateways.outputs.http.resources.SellerResource;
@@ -17,9 +18,15 @@ public class SellersDataGatewayHttpImpl implements SellersDataGateway {
   @Autowired
   public SellersFeignIntegration sellersFeignIntegration;
 
+
   @Override
   public boolean exists(String sellerId) {
     Optional<SellerResource> sellerResource = sellersFeignIntegration.get(sellerId);
     return sellerResource.isPresent();
+  }
+
+  @Override
+  public void save(Seller seller) {
+    throw new RuntimeException("Não implementado.");
   }
 }

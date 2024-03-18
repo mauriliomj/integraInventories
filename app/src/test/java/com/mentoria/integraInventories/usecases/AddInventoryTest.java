@@ -26,7 +26,6 @@ class AddInventoryTest {
 
   @Test
   public void shouldSaveAPrice() {
-
     Inventory inventoryTest = mockInventory();
 
     Mockito.when(sellersDataGateway.exists(inventoryTest.getSellerId())).thenReturn(true);
@@ -38,7 +37,6 @@ class AddInventoryTest {
     addInventory.execute(mockInventory());
 
     Mockito.verify(inventoryDataGateway).save(mockInventory());
-
   }
 
   @Test
@@ -53,7 +51,6 @@ class AddInventoryTest {
 
     Assertions.assertThrows(AlreadyRegisteredException.class,
         () -> addInventory.execute(mockInventory()));
-
   }
 
   @Test
@@ -68,17 +65,13 @@ class AddInventoryTest {
 
     Assertions.assertThrows(AlreadyRegisteredException.class,
         () -> addInventory.execute(mockInventory()));
-
   }
 
   public Inventory mockInventory() {
-
     Inventory mockInventory = new Inventory();
     mockInventory.setSku("SkuTest");
     mockInventory.setSellerId("IdTest");
     mockInventory.setInventory(10);
     return mockInventory;
-
   }
-
 }
