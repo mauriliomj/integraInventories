@@ -36,6 +36,11 @@ class AddSellerTest {
 
     Mockito.verify(checkSellerId).validate(mockSeller().getSellerId());
     Mockito.verify(sellersRepository).save(sellerArgumentCaptor.capture());
+    SellerDocument sellerDocumentCaptor = sellerArgumentCaptor.getValue();
+
+    Assertions.assertEquals(mockSeller().getSellerId(), sellerDocumentCaptor.getSellerId());
+    Assertions.assertEquals(mockSeller().getRegistrationCode(), sellerDocumentCaptor
+        .getRegistrationCode());
   }
 
   @Test

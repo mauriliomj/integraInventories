@@ -36,6 +36,8 @@ public class FF4jConfiguration extends SpringBootServletInitializer {
                 ff4j.createFeature(
                     feature.getKey(), feature.isDefaultValue(), feature.getDescription()));
 
+
+
     return ff4j;
   }
 

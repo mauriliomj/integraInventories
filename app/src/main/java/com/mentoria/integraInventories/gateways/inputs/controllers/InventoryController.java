@@ -5,6 +5,7 @@ import com.mentoria.integraInventories.gateways.inputs.jsons.InventoryRequest;
 import com.mentoria.integraInventories.usecases.AddInventory;
 import com.mentoria.integraInventories.usecases.GetInventory;
 import com.mentoria.integraInventories.usecases.UpdateInventory;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

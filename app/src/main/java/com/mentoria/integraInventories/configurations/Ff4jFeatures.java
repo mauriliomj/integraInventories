@@ -11,7 +11,7 @@ public enum Ff4jFeatures {
       "find-seller-on-http",
       "features",
       "Consulta o seller via http quando ativado, caso contrário a consulta é feita pelo mongo.",
-      true);
+      false);
 
   private final String key;
   private final String groupName;
