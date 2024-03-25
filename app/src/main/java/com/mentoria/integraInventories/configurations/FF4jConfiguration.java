@@ -3,6 +3,7 @@ package com.mentoria.integraInventories.configurations;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import java.util.Arrays;
+import javax.servlet.Servlet;
 import org.ff4j.FF4j;
 import org.ff4j.core.FeatureStore;
 import org.ff4j.mongo.store.FeatureStoreMongo;
@@ -61,7 +62,7 @@ public class FF4jConfiguration extends SpringBootServletInitializer {
   @SuppressWarnings("unchecked")
   public ServletRegistrationBean ff4jDispatcherServletRegistrationBean(final FF4jDispatcherServlet
       ff4jDispatcherServlet){
-    return new ServletRegistrationBean(ff4jDispatcherServlet, DEFAULT_CONSOLE);
+    return new ServletRegistrationBean((Servlet) ff4jDispatcherServlet, DEFAULT_CONSOLE);
   }
 
   @Bean
